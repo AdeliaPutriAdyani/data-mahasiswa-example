@@ -17,10 +17,27 @@ module.exports = {
       },
 
     getImage: async (req, res) => {
-
+        const foto = await prisma.image.findMany();
+        
+        return res.json({
+            data: foto
+        });
     },
 
     getImageId: async (req, res) => {
-
-    }
-}
+        const imageId = parseInt(req.params.imageId);
+    
+        const fotoId = await prisma.image.findUnique({
+            where: {
+                id: imageId
+            },
+            include: {
+                mahasiswa: true
+            }
+        });
+    
+        return res.json({
+            data: fotoId
+        });
+    }    
+}    
